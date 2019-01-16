@@ -61,3 +61,89 @@
     show-sql 是否打印出自动生产的SQL，方便调试的时候查看
 
     3、添加实体类和Dao
+
+>> 使用Thymeleaf模版引擎
+    1.maven中直接引入依赖
+          <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+          </dependency>
+
+    2.配置视图解析器
+      spring-boot很多配置都有默认配置,比如默认页面映射路径为
+      classpath:/templates/*.html
+      同样静态文件路径为：classpath:/static/
+
+      在application.properties中可以配置thymeleaf模板解析器属性.就像使用springMVC的JSP解析器配置一样：
+          #thymeleaf start
+          spring.thymeleaf.mode=HTML5
+          spring.thymeleaf.encoding=UTF-8
+          spring.thymeleaf.content-type=text/html
+          #开发时关闭缓存,不然没法看到实时页面
+          spring.thymeleaf.cache=false
+          #thymeleaf end
+
+      具体可以配置的参数可以查看
+      org.springframework.boot.autoconfigure.thymeleaf.ThymeleafProperties这个类,上面的配置实际上就是注入到该类中的属性值.
+
+    3.创建controler层跳转到该页面
+        @Controller
+        public class ThymeleafController {
+
+            private final String SUCCESS = "success";
+
+            @Autowired
+            private EmployeeService employeeService;
+
+            /**
+             * 访问success.html页面，路径：classpath:templates/xxx.html
+             */
+            @RequestMapping(value = "/page")
+            public String successPage(Model model)
+            {
+                model.addAttribute("allEmps",employeeService.findAll());
+                return SUCCESS;
+            }
+
+            /**
+             * 分页查询数据
+             */
+            @RequestMapping(value = "/page/{page}/{size}")
+            public String queryEmpsPage(@PathVariable(value = "page",required = false) Integer page,
+                                        @PathVariable(value = "size",required = false) Integer size,
+                                        Model model)
+            {
+                Pageable pageable = PageRequest.of(page,size);
+                Page<Employee> all = employeeService.findAll(pageable);
+                model.addAttribute("allEmps",all.getContent());
+                return SUCCESS;
+            }
+        }
+
+    4.在templates目录下创建html文件，注意html开始标签添加"xmlns:th="http://www.thymeleaf.org"
+        <!DOCTYPE html>
+        <html xmlns:th="http://www.thymeleaf.org" lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>SuccessPage</title>
+        </head>
+        <body>
+        <h3 align="center">雇员信息列表</h3>
+        <!-- 添加表格 -->
+        <table align="center" border="0" cellpadding="15" cellspacing="0">
+            <tr align="center" bgcolor="#7fffd4">
+                <td>EmpId</td>
+                <td>EmpName</td>
+                <td>EmpAge</td>
+                <td>EmpBirth</td>
+            </tr>
+            <!-- emp:${allEmps} : emp是临时变量，${allEmps}通过变量获取数据 -->
+            <tr th:each="emp:${allEmps}" align="center">
+                <td th:text="${emp.getEmpId()}">id</td>
+                <td th:text="${emp.getEmpName()}">name</td>
+                <td th:text="${emp.getEmpAge()}">age</td>
+                <td th:text="${emp.getEmpBirth()}">birth</td>
+            </tr>
+        </table>
+        </body>
+        </html>

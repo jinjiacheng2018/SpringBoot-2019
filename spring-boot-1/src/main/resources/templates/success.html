@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SuccessPage</title>
+</head>
+<body>
+<h3 align="center">雇员信息列表</h3>
+<!-- 添加表格 -->
+<table align="center" border="0" cellpadding="15" cellspacing="0">
+    <tr align="center" bgcolor="#7fffd4">
+        <td>EmpId</td>
+        <td>EmpName</td>
+        <td>EmpAge</td>
+        <td>EmpBirth</td>
+    </tr>
+    <!-- emp:${allEmps} : emp是临时变量，${allEmps}通过变量获取数据 -->
+    <tr th:each="emp:${allEmps}" align="center">
+        <td th:text="${emp.getEmpId()}">id</td>
+        <td th:text="${emp.getEmpName()}">name</td>
+        <td th:text="${emp.getEmpAge()}">age</td>
+        <td th:text="${emp.getEmpBirth()}">birth</td>
+    </tr>
+</table>
+</body>
+</html>
