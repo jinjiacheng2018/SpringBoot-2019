@@ -1,5 +1,7 @@
 package com.tgram.sboot.filter;
 
+import org.apache.logging.log4j.util.Strings;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -36,7 +38,19 @@ public class MyFilter implements Filter
 
         // 类型转换
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        System.out.println("MyFilter DoFilter Method, URL: " + request.getRequestURI());
+
+        // 获取请求的url
+        String url = "http://" + request.getServerName() + ":" + request.getServerPort() +request.getRequestURI();
+
+        // 判断是否有参数
+        String queryParam = request.getQueryString();
+        if(Strings.isNotBlank(queryParam))
+        {
+            url += "?" + queryParam;
+        }
+        System.out.println("MyFilter DoFilter Method, URL: " + url);
+
+        // 过滤器放行
         filterChain.doFilter(servletRequest,servletResponse);
     }
 
