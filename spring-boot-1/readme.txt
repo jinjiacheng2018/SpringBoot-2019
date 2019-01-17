@@ -62,6 +62,20 @@
 
     3、添加实体类和Dao
 
+>> SpringBoot整合Reids步骤
+    1.导入依赖：
+        <!-- spring-boot-starter-redis：引入Reids的依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- spring-boot-starter-cache：引入缓存依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
 >> 使用Thymeleaf模版引擎
     1.maven中直接引入依赖
           <dependency>
@@ -147,3 +161,34 @@
         </table>
         </body>
         </html>
+
+>>使用Docker部署Spring Boot步骤
+1.Spring Boot项目添加Docker支持
+    1.1.在pom.xml-properties中添加Docker镜像名称
+          <properties>
+            <docker.image.prefix>springboot</docker.image.prefix>
+          </properties>
+
+    1.2.plugins中添加Docker构建插件
+        <!-- Docker maven plugin -->
+        <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>1.0.0</version>
+            <configuration>
+                <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                <dockerDirectory>src/main/docker</dockerDirectory>
+                <resources>
+                    <resource>
+                        <targetPath>/</targetPath>
+                        <directory>${project.build.directory}</directory>
+                        <include>${project.build.finalName}.jar</include>
+                    </resource>
+                </resources>
+            </configuration>
+        </plugin>
+        <!-- Docker maven plugin -->
+
+2.在目录src/main/docker下创建 Dockerfile 文件，Dockerfile 文件用来说明如何来构建镜像
+  创建文件注意：IDEA需要先安装插件，从File->Settings->Plugins->Install JetBrains plugin进入插件安装界面，
+                在搜索框中输入docker，可以看到Docker integration，点击右边的Install按钮进行安装。安装后重启Idea。

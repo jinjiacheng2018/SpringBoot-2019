@@ -5,6 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
+		<!--<version>1.5.19.RELEASE</version>-->
 		<version>2.1.2.RELEASE</version>
 		<relativePath/>
 	</parent>
@@ -17,6 +18,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+        <!-- 添加对Docker镜像的支持 -->
+        <!--<docker.image.prefix>springboot</docker.image.prefix>-->
 
         <!-- 布局功能的支持程序，Thymeleaf版本是3的程序，layout需要使用2以上的版本 -->
         <!--<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
@@ -65,6 +68,26 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
+        <!-- spring-boot-starter-redis：引入Reids的依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- springboot2.0的redis整合包多出lettuce连接池，需要commons-pool2，所以项目pom依赖要添加commons-pool2 -->
+        <!-- 高版本redis的lettuce需要commons-pool2 -->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-pool2</artifactId>-->
+            <!--<version>2.6.0</version>-->
+        <!--</dependency>-->
+
+        <!-- spring-boot-starter-cache：引入缓存依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -76,6 +99,26 @@
                     <fork>true</fork>
                 </configuration>
 			</plugin>
+
+            <!-- Docker maven plugin -->
+            <!--
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>-->
+            <!-- Docker maven plugin -->
 		</plugins>
 	</build>
 

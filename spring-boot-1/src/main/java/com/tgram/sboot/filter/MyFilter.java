@@ -1,10 +1,9 @@
 package com.tgram.sboot.filter;
 
-import org.apache.logging.log4j.util.Strings;
+import java.io.IOException;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 public class MyFilter implements Filter
 {
@@ -44,7 +43,7 @@ public class MyFilter implements Filter
 
         // 判断是否有参数
         String queryParam = request.getQueryString();
-        if(Strings.isNotBlank(queryParam))
+        if(queryParam != null && queryParam.length() > 0)
         {
             url += "?" + queryParam;
         }
