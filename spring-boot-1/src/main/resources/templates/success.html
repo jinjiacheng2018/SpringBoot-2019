@@ -21,6 +21,12 @@
         <td th:text="${emp.getEmpAge()}">age</td>
         <td th:text="${emp.getEmpBirth()}">birth</td>
     </tr>
+    <tr align="center">
+        <form th:action="@{/pageByName}">
+            <td colspan="3"><input type="text" name="empName"/></td>
+            <td><input type="submit" /></td>
+        </form>
+    </tr>
 </table>
 </body>
 </html>

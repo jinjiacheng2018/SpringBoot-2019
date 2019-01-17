@@ -90,4 +90,14 @@ public class EmployeeServiceImpl implements EmployeeService
     {
         return employeeRepository.findAll(pageable);
     }
+
+    /**
+     * 通过用户查询雇员信息
+     * @param empName
+     * @return
+     */
+    @Override
+    public List<Employee> findEmployeeByEmpName(String empName) {
+        return employeeRepository.findEmployeeByEmpName(empName);
+    }
 }

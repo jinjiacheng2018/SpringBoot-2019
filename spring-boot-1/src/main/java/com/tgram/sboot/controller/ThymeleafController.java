@@ -1,5 +1,9 @@
 package com.tgram.sboot.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -55,5 +59,22 @@ public class ThymeleafController {
         Page<Employee> all = employeeService.findAll(pageable);
         model.addAttribute("allEmps",all.getContent());
         return SUCCESS;
+    }
+
+    /**
+     * 通过名称查询列表
+     * @param
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/pageByName")
+    public String queryEmpsPageByName(HttpServletRequest request,
+                                      Model model)
+    {
+        // 获取请求的参数名称
+        String empName = request.getParameter("empName");
+        List<Employee> employeeByEmpNameList = employeeService.findEmployeeByEmpName(empName == null ? "" : empName);
+        model.addAttribute("allEmpsByNameList",employeeByEmpNameList);
+        return "querysuccess";
     }
 }

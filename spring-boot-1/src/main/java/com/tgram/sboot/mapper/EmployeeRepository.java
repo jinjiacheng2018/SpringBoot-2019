@@ -63,4 +63,11 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
      * @return
      */
     Page<Employee> findAll(Pageable pageable);
+
+    /**
+     * 通过用户查询雇员信息
+     * @param empName
+     * @return
+     */
+    List<Employee> findEmployeeByEmpName(String empName);
 }

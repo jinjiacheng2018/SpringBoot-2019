@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QuerySuccess</title>
+</head>
+<body>
+<table align="center" border="0" cellpadding="15" cellspacing="0">
+    <tr align="center" bgcolor="#7fffd4">
+        <td>EmpId</td>
+        <td>EmpName</td>
+        <td>EmpAge</td>
+        <td>EmpBirth</td>
+    </tr>
+    <tr th:each="allEmp:${allEmpsByNameList}" align="center">
+        <td th:text="${allEmp.getEmpId()}">id</td>
+        <td th:text="${allEmp.getEmpName()}">name</td>
+        <td th:text="${allEmp.getEmpAge()}">age</td>
+        <td th:text="${allEmp.getEmpBirth()}">birth</td>
+    </tr>
+    <tr align="center">
+        <td colspan="4"><a th:href="@{/page}">返回列表</a></td>
+    </tr>
+</table>
+</body>
+</html>
